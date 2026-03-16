@@ -1,4 +1,4 @@
-# AI Agent Payment Protocol (Soroban / Stellar)
+# AI Agent Payment Protocol
 
 ## Overview
 
