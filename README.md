@@ -1,23 +1,14 @@
-# AI Agent Payment Protocol
+# AgentPay Protocol
 
-## Overview
+Autonomous payments for AI agents on Stellar.
 
-This project is a **smart-contract protocol that enables AI agents to autonomously pay for services** such as APIs, data feeds, or computation.
+AgentPay is an open protocol that enables **AI agents to autonomously pay for services, APIs, data, and computation** using smart contracts.
 
-It is built on **Stellar’s Soroban smart contract platform** and demonstrates how autonomous agents can participate in a **machine-to-machine economy** using programmable payments.
-
-The protocol allows:
-
-* Service providers to **register paid services**
-* AI agents to **deposit tokens**
-* Agents to **request services**
-* Providers to **receive payment automatically**
-
-This repository contains the smart contract, example agent interaction scripts, and a demonstration workflow.
+The project is built on the Stellar network using Soroban smart contracts and provides infrastructure for **machine-to-machine commerce**.
 
 ---
 
-## Problem
+# Motivation
 
 AI agents increasingly rely on external services such as:
 
@@ -26,330 +17,293 @@ AI agents increasingly rely on external services such as:
 * compute resources
 * model inference endpoints
 
-Today these services are typically accessed through:
+Today these services are accessed through centralized billing systems such as:
 
 * API keys
-* subscription billing
-* centralized payment systems
+* subscriptions
+* manual payments
 
-This makes **automated AI-to-service commerce difficult**.
+These models are not suitable for autonomous agents.
 
-AI agents cannot easily:
-
-* pay for services autonomously
-* pay per request
-* interact economically with other machines
+AgentPay introduces a decentralized payment layer that allows agents to **pay per request without human intervention**.
 
 ---
 
-## Solution
+# Vision
 
-This protocol enables **autonomous micropayments between AI agents and service providers**.
-
-Instead of subscriptions, services can be priced **per request**, allowing agents to dynamically purchase only what they need.
-
-Example flow:
-
-1. Service provider registers a service and sets a price.
-2. AI agent deposits tokens into the contract.
-3. The agent requests the service.
-4. The provider fulfills the request.
-5. The smart contract releases payment to the provider.
-
-This creates a **trust-minimized pay-per-use infrastructure for AI services**.
-
----
-
-## Architecture
-
-The system consists of three components:
-
-### 1. Smart Contract
-
-Responsible for:
-
-* storing agent balances
-* registering services
-* recording service requests
-* releasing payments
-
-### 2. AI Agent (Off-Chain)
-
-The AI agent interacts with the contract to:
+AgentPay enables a new economic model called the **Agent Economy**, where software agents can:
 
 * discover services
-* request services
-* spend tokens
+* purchase resources
+* collaborate economically
+* transact autonomously
 
-### 3. Service Provider
+Example workflow:
 
-Service providers:
+AI agent → requests summarization
+Provider → generates summary
+Smart contract → releases payment
 
+---
+
+# Architecture
+
+The system consists of five main components.
+
+## Smart Contract
+
+The core protocol runs on Soroban smart contracts deployed on Stellar.
+
+Responsibilities:
+
+* manage agent balances
 * register services
-* fulfill service requests
-* receive payment through the contract
+* record service requests
+* release payments to providers
 
----
-
-## System Flow
+Location:
 
 ```
-AI Agent
-   │
-   │ requests service
-   ▼
-Smart Contract
-   │
-   │ verifies balance and records request
-   ▼
-Service Provider
-   │
-   │ delivers service result
-   ▼
-Smart Contract
-   │
-   │ releases payment
-   ▼
-Provider Wallet
+contracts/agentpay/
 ```
 
 ---
 
-## Smart Contract Features
+## Backend Indexer
 
-### Agent Wallet
+The backend indexer tracks contract events and provides an API for querying protocol data.
 
-Agents can deposit funds and use them to purchase services.
+Stack:
 
-Functions:
+* Python
+* FastAPI
+* PostgreSQL
 
-* `deposit(agent, amount)`
-* `get_balance(agent)`
+Responsibilities:
+
+* index services
+* index requests
+* track payments
+* expose REST APIs
+
+Location:
+
+```
+backend/indexer/
+```
+
+Example API endpoints:
+
+```
+GET /services
+GET /services/{id}
+GET /requests
+GET /agents/{address}
+```
 
 ---
 
-### Service Registry
+## Provider Node
 
-Providers can register services and define pricing.
+Providers run a node that listens for service requests and fulfills them.
 
-Functions:
+Responsibilities:
 
-* `register_service(provider, price)`
-* `get_service(service_id)`
+* watch blockchain events
+* process requests
+* submit results
+* claim payment
 
 Example services:
 
 * text summarization
-* weather data API
-* research dataset access
-* image generation
-
----
-
-### Service Requests
-
-Agents can request services by referencing a service ID.
-
-Functions:
-
-* `request_service(agent, service_id)`
-
-The contract checks:
-
-* agent balance
-* service availability
-
-If valid, the request is recorded.
-
----
-
-### Payment Settlement
-
-Once the provider fulfills the request, payment is released.
-
-Functions:
-
-* `complete_request(request_id)`
-
-The contract transfers tokens from the agent’s balance to the provider.
-
----
-
-### Event Logging
-
-The contract emits events to allow off-chain systems to track activity.
-
-Events include:
-
-* `service_registered`
-* `service_requested`
-* `payment_released`
-
-These events allow AI agents or monitoring systems to react in real time.
-
----
-
-## Project Structure
-
-```
-ai-agent-payments/
-│
-├── contracts/
-│   ├── contract.rs
-│   ├── storage.rs
-│   ├── services.rs
-│   └── payments.rs
-│
-├── src/
-│   └── lib.rs
-│
-├── tests/
-│   └── contract_tests.rs
-│
-├── scripts/
-│   └── agent_example.py
-│
-├── Cargo.toml
-└── README.md
-```
-
----
-
-## Example Use Case
-
-### AI Research Assistant
-
-An AI agent performing research may need:
-
-* article summarization
-* dataset access
+* translation
+* weather data
 * search APIs
 
-Instead of subscriptions:
-
-1. The agent requests a summarization service.
-2. The service costs `0.1` tokens.
-3. The provider returns the summary.
-4. The contract transfers `0.1` tokens to the provider.
-
-This enables **fully automated AI workflows**.
-
----
-
-## Development Setup
-
-### Prerequisites
-
-Install:
-
-* Rust
-* Stellar CLI
-* Soroban SDK
-
-Install Stellar CLI:
+Location:
 
 ```
-cargo install stellar-cli
-```
-
-Add WASM build target:
-
-```
-rustup target add wasm32-unknown-unknown
+provider/provider-node/
 ```
 
 ---
 
-### Build the Contract
+## Agent SDK
 
-From the project root:
+The SDK simplifies interaction with the protocol.
+
+Developers can use it to build AI agents that purchase services.
+
+Location:
+
+```
+sdk/agentpay-sdk/
+```
+
+Example usage:
+
+```
+const agent = new AgentPayClient(wallet)
+
+await agent.deposit(100)
+
+await agent.requestService({
+  serviceId: 1,
+  input: "Summarize this article"
+})
+```
+
+---
+
+## Example Agents
+
+Example agents demonstrate how the protocol can be used.
+
+Examples include:
+
+* research agent
+* content generation agent
+* trading assistant
+
+Location:
+
+```
+examples/
+```
+
+---
+
+# Project Structure
+
+```
+agentpay-protocol/
+
+contracts/
+   agentpay/
+
+backend/
+   indexer/
+
+provider/
+   provider-node/
+
+sdk/
+   agentpay-sdk/
+
+examples/
+
+docs/
+
+README.md
+CONTRIBUTING.md
+```
+
+---
+
+# MVP Features
+
+AgentPay MVP includes:
+
+* agent wallet deposits
+* service registration
+* service requests
+* payment settlement
+* backend indexing
+* provider nodes
+* SDK for developers
+
+---
+
+# Quick Start
+
+## Clone Repository
+
+```
+git clone https://github.com/yourname/agentpay-protocol
+cd agentpay-protocol
+```
+
+---
+
+## Build Smart Contract
 
 ```
 stellar contract build
 ```
 
-This compiles the contract to WebAssembly.
-
 ---
 
-### Deploy the Contract
+## Run Backend Indexer
 
 ```
-stellar contract deploy \
---wasm target/wasm32-unknown-unknown/release/ai_agent_payments.wasm
-```
-
----
-
-### Initialize the Contract
-
-After deployment, initialize contract parameters.
-
-```
-stellar contract invoke \
---id CONTRACT_ID \
--- init
+cd backend/indexer
+pip install -r requirements.txt
+uvicorn main:app --reload
 ```
 
 ---
 
-## MVP Features
+## Run Provider Node
 
-The MVP implementation includes:
-
-* agent deposits
-* service registration
-* service requests
-* payment settlement
-* event logging
+```
+cd provider/provider-node
+python provider.py
+```
 
 ---
 
-## Future Improvements
+## Run Example Agent
 
-Planned enhancements include:
+```
+cd examples/research-agent
+python agent.py
+```
 
-### Service Marketplace
+---
+
+# Roadmap
+
+### v0.1 — MVP
+
+* smart contract protocol
+* Python indexer
+* provider node
+* example agents
+
+### v0.2 — Marketplace
 
 * service discovery
-* service categories
 * provider metadata
+* categories
 
-### Escrow Payments
+### v0.3 — Trust & Reputation
 
-* verify service delivery before payment
+* provider reputation
+* request verification
 * dispute resolution
 
-### Agent Budget Controls
+### v1.0 — Agent Economy
 
-* daily spending limits
-* maximum request price
-* usage quotas
-
-### Reputation System
-
-* provider ratings
-* service reliability tracking
-
-### Autonomous Agent Discovery
-
-Allow agents to automatically discover and evaluate services.
+* autonomous service discovery
+* agent-to-agent payments
+* decentralized service marketplace
 
 ---
 
-## Vision
+# Contributing
 
-This project explores the concept of an **AI-driven economic network**, where autonomous agents can:
+We welcome contributions from developers interested in:
 
-* discover services
-* purchase resources
-* collaborate economically
-* transact without human intervention
+* blockchain development
+* AI agents
+* distributed systems
+* backend infrastructure
 
-Such systems could enable a **machine-to-machine economy** where software agents interact financially in real time.
+See `CONTRIBUTING.md` for guidelines.
 
 ---
 
-## License
+# License
 
 MIT License
