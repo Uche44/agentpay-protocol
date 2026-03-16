@@ -1,0 +1,85 @@
+.section {
+  background: #f5f5f0;
+  border-bottom: 2.5px solid #0a0a0a;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.title {
+  font-size: clamp(1.9rem, 3vw, 2.8rem);
+  letter-spacing: -0.04em;
+  margin-bottom: 1.25rem;
+}
+
+.body {
+  color: #606060;
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 0.9rem;
+}
+
+.scenario {
+  border: 2.5px solid #0a0a0a;
+  box-shadow: 8px 8px 0 #0a0a0a;
+  overflow: hidden;
+}
+
+.scenarioLabel {
+  background: #0a0a0a;
+  color: #f5f5f0;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+}
+
+.steps {
+  background: #f5f5f0;
+  padding: 0;
+}
+
+.step {
+  display: flex;
+  gap: 1.25rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1.5px solid #d0d0ca;
+  align-items: flex-start;
+}
+
+.stepNum {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #888882;
+  min-width: 24px;
+  padding-top: 0.1rem;
+  letter-spacing: 0.05em;
+}
+
+.stepText {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.noHuman {
+  background: #0a0a0a;
+  color: #f5f5f0;
+  padding: 0.9rem 1.25rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}

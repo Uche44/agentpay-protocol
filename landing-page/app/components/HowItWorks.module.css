@@ -1,0 +1,122 @@
+.section {
+  background: #0a0a0a;
+  color: #f5f5f0;
+  border-bottom: 2.5px solid #f5f5f0;
+}
+
+.header {
+  max-width: 640px;
+  margin-bottom: 3.5rem;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  letter-spacing: -0.04em;
+  margin-bottom: 1rem;
+  color: #f5f5f0;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #888882;
+  line-height: 1.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 2.5px solid #404040;
+}
+
+.step {
+  padding: 2rem;
+  border-right: 2.5px solid #404040;
+  border-bottom: 2.5px solid #404040;
+  transition: background 150ms ease;
+}
+
+.step:hover {
+  background: #1a1a1a;
+}
+
+.step:nth-child(3n) {
+  border-right: none;
+}
+
+.step:nth-child(4),
+.step:nth-child(5),
+.step:nth-child(6) {
+  border-bottom: none;
+}
+
+.stepHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.num {
+  font-family: 'Space Mono', monospace;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #404040;
+}
+
+.tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #888882;
+  border: 1.5px solid #404040;
+  padding: 0.2rem 0.5rem;
+}
+
+.stepTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f5f5f0;
+  margin-bottom: 0.65rem;
+}
+
+.stepDesc {
+  font-size: 0.88rem;
+  color: #888882;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .step:nth-child(3n) {
+    border-right: 2.5px solid #404040;
+  }
+  .step:nth-child(2n) {
+    border-right: none;
+  }
+  .step:nth-child(5),
+  .step:nth-child(6) {
+    border-bottom: none;
+  }
+  .step:nth-child(4) {
+    border-bottom: 2.5px solid #404040;
+  }
+}
+
+@media (max-width: 580px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .step {
+    border-right: none !important;
+    border-bottom: 2.5px solid #404040 !important;
+  }
+  .step:last-child {
+    border-bottom: none !important;
+  }
+}
