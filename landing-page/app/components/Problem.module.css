@@ -1,0 +1,83 @@
+.section {
+  background: #e8e8e3;
+  border-bottom: 2.5px solid #0a0a0a;
+}
+
+.header {
+  max-width: 680px;
+  margin-bottom: 3.5rem;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.04em;
+}
+
+.desc {
+  color: #606060;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 3.5rem;
+}
+
+.card {
+  border: 2.5px solid #0a0a0a !important;
+  background: #f5f5f0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.cardTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cardDesc {
+  font-size: 0.9rem;
+  color: #606060;
+  line-height: 1.6;
+}
+
+.quote {
+  border: 2.5px solid #0a0a0a;
+  border-left: 8px solid #0a0a0a;
+  padding: 2rem 2.25rem;
+  background: #0a0a0a;
+  color: #f5f5f0;
+  box-shadow: 5px 5px 0 #606060;
+}
+
+.quote blockquote {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  font-style: italic;
+  margin-bottom: 1rem;
+  color: #e8e8e3;
+}
+
+.quote cite {
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  color: #888882;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
