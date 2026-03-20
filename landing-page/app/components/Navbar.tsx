@@ -10,7 +10,7 @@ export default function Navbar() {
     <nav className={styles.nav}>
       <div className={styles.inner}>
         <Link href="/" className={styles.logo}>
-          <span className={styles.logoMono}>AGENT</span>
+          <span className={styles.logoMono}>STELLAR AGENT</span>
           <span className={styles.logoBold}>PAY</span>
         </Link>
 
